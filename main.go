@@ -15,9 +15,9 @@ func init() {
 
 func main() {
 
-	//poller := drive.NewEPoll()
 	//poller := drive.NewSelect()
-	poller := drive.NewPoll()
+	//poller := drive.NewPoll()
+	poller := drive.NewEPoll()
 	server := NewServer(poller, 7000)
 
 	server.onConnect = func(client *Client) {
