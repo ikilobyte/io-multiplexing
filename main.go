@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io-multiplexing/drive"
 	"log"
+	"strings"
 )
 
 var clients map[int]*Client
@@ -15,12 +16,14 @@ func init() {
 func main() {
 
 	//poller := drive.NewEPoll()
-	poller := drive.NewSelect()
+	//poller := drive.NewSelect()
+	poller := drive.NewPoll()
 	server := NewServer(poller, 7000)
 
 	server.onConnect = func(client *Client) {
 		fmt.Println("onConnect", client.fd)
-		//client.Write([]byte(strings.Repeat("A", 1024*1024*100)))
+		client.Write([]byte(strings.Repeat("A", 1024*1024*10)))
+		client.Write([]byte("hello world"))
 	}
 
 	server.onMessage = func(client *Client, message []byte, n int) {
