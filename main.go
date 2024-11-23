@@ -14,11 +14,13 @@ func init() {
 
 func main() {
 
-	poller := drive.EPoll()
+	//poller := drive.NewEPoll()
+	poller := drive.NewSelect()
 	server := NewServer(poller, 7000)
 
 	server.onConnect = func(client *Client) {
 		fmt.Println("onConnect", client.fd)
+		//client.Write([]byte(strings.Repeat("A", 1024*1024*100)))
 	}
 
 	server.onMessage = func(client *Client, message []byte, n int) {
